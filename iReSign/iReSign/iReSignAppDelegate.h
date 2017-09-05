@@ -3,6 +3,8 @@
 //  iReSign
 //
 //  Created by Maciej Swic on 2011-05-16.
+//  Copyright (c) 2011 Maciej Swic, Licensed under the MIT License.
+//  See README.md for details
 //
 
 #import <Cocoa/Cocoa.h>
@@ -15,18 +17,26 @@
     NSUserDefaults *defaults;
     
     NSTask *unzipTask;
+    NSTask *copyTask;
     NSTask *provisioningTask;
     NSTask *codesignTask;
+    NSTask *generateEntitlementsTask;
     NSTask *verifyTask;
     NSTask *zipTask;
-    NSString *originalIpaPath;
+    NSString *sourcePath;
     NSString *appPath;
+    NSString *frameworksDirPath;
+    NSString *frameworkPath;
     NSString *workingPath;
     NSString *appName;
     NSString *fileName;
     
+    NSString *entitlementsResult;
     NSString *codesigningResult;
     NSString *verificationResult;
+    
+    NSMutableArray *frameworks;
+    Boolean hasFrameworks;
     
     IBOutlet IRTextFieldDrag *pathField;
     IBOutlet IRTextFieldDrag *provisioningPathField;
@@ -58,6 +68,7 @@
 - (IBAction)changeBundleIDPressed:(id)sender;
 
 - (void)checkUnzip:(NSTimer *)timer;
+- (void)checkCopy:(NSTimer *)timer;
 - (void)doProvisioning;
 - (void)checkProvisioning:(NSTimer *)timer;
 - (void)doCodeSigning;
